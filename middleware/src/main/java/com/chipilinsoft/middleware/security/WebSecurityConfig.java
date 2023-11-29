@@ -13,15 +13,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.chipilinsoft.middleware.repository.UserRepo;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final JwtTokenProvider jwtTokenProvider;
+  private final JwtTokenProvider jwtTokenProvider;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -34,8 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // Entry points
     http.authorizeRequests()//
-    	.antMatchers("/public/authorization/login").permitAll()//
-        .antMatchers("/users/signin").permitAll()//
+        .antMatchers("/public/authorization/login").permitAll()//
         .antMatchers("/users/signup").permitAll()//
         .antMatchers("/h2-console/**/**").permitAll()
         // Disallow everything else..
@@ -50,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // Optional, if you want to test the API from a browser
     // http.httpBasic();
   }
+
   @Override
   public void configure(WebSecurity web) throws Exception {
     // Allow swagger to be accessed without authentication

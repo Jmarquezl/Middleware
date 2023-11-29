@@ -33,14 +33,14 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 	@Override
 	public IBaseResponse login(AuthenticationRequest request) {
 		AuthenticationResponse response = new AuthenticationResponse();
-		logger.info("Request: " + request.toString());
 		try {
 			String token = "";
 			AuthUserDocument appUser = userRepository.getUser(request.getUss(), request.getPss());
-			logger.info("Se obtiene el siguiente usuario: " + appUser.toString());
 			if(appUser == null)return response;
-			
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUss(), request.getPss()));
+			logger.info("Se obtiene el siguiente usuario: " + appUser.toString());
+			UsernamePasswordAuthenticationToken usa = new UsernamePasswordAuthenticationToken(request.getUss(), request.getPss());
+			logger.info(usa.getCredentials().toString());
+			authenticationManager.authenticate(usa);
 			logger.info("sdasdasd");
 			
 			token =  jwtTokenProvider.createToken(request.getUss(), appUser.getAppUserRoles());
@@ -48,7 +48,7 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 			response.setToken(token);
 			logger.info(response.toString());
 		} catch (Exception e) {
-			logger.error("Error: " + e.getMessage());
+			logger.error("Error:: " + e.toString() + e.getMessage());
 		}
 		return response;
 	}
