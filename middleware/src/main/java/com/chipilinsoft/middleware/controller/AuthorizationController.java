@@ -1,21 +1,32 @@
 package com.chipilinsoft.middleware.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("authorization")
-public class AuthorizationController {
+import com.chipilinsoft.middleware.entity.AuthenticationRequest;
+import com.chipilinsoft.middleware.entity.IBaseResponse;
+import com.chipilinsoft.middleware.service.AuthenticationServie;
 
-	@GetMapping(value = "saludo")
-	public ResponseEntity<?> saludo(@RequestParam String name)
+@RestController
+@RequestMapping("public/authorization")
+public class AuthorizationController {
+	private static final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
+	@Autowired
+	private AuthenticationServie authenticationService;
+	
+	@PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//	@PostAuthorize(value = "singin")
+	public ResponseEntity<?> login(@RequestBody AuthenticationRequest request)
 	{
-		return new ResponseEntity<String>("Hola " + name, HttpStatus.OK);
+		logger.info("Se recibe petición de login.");
+		return new ResponseEntity<>(authenticationService.login(request), HttpStatus.OK);
 	}
 }
