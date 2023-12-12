@@ -12,19 +12,15 @@ import com.chipilinsoft.middleware.repository.*;
 
 @Service
 @RequiredArgsConstructor
-public class MyUserDetails implements UserDetailsService 
+public class WrapperUserApplication implements UserDetailsService 
 {
 	@Autowired
 	private final UserRepo userRepository;
   
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
-	{
-    
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{    
 		final AuthUserDocument appUser = userRepository.getUser(username);
-
-		if (appUser == null) 
-		{
+		if (appUser == null){
 			throw new UsernameNotFoundException("User '" + username + "' not found");
 		}
 	

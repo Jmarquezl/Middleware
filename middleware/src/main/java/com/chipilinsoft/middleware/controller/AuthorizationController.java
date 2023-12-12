@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chipilinsoft.middleware.entity.AuthenticationRequest;
-import com.chipilinsoft.middleware.entity.IBaseResponse;
 import com.chipilinsoft.middleware.service.AuthenticationServie;
 
 @RestController
@@ -23,9 +22,7 @@ public class AuthorizationController {
 	private AuthenticationServie authenticationService;
 	
 	@PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//	@PostAuthorize(value = "singin")
-	public ResponseEntity<?> login(@RequestBody AuthenticationRequest request)
-	{
+	public ResponseEntity<?> login(@RequestBody AuthenticationRequest request){
 		logger.info("Se recibe petición de login.");
 		return new ResponseEntity<>(authenticationService.login(request), HttpStatus.OK);
 	}
