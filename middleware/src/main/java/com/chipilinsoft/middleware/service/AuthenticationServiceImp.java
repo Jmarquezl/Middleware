@@ -35,7 +35,7 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 		AuthenticationResponse response = new AuthenticationResponse();
 		try {
 			String token = "";
-			AuthUserDocument appUser = userRepository.getUser(request.getUss(), request.getPss());
+			AuthUserDocument appUser = userRepository.getUser(request.getUss());
 			if(appUser == null)return response;
 			logger.info("Se obtiene el siguiente usuario: " + appUser.toString());
 			UsernamePasswordAuthenticationToken usa = new UsernamePasswordAuthenticationToken(request.getUss(), request.getPss());
