@@ -26,4 +26,10 @@ public class AuthorizationController {
 		logger.info("Se recibe petición de login.");
 		return new ResponseEntity<>(authenticationService.login(request), HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/refreshToken", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> refreshToken(@RequestBody AuthenticationRequest request){
+		logger.info("Se recibe petición para refresh token del usuario: " + request.getUss());
+		return new ResponseEntity<>(authenticationService.refreshToken(request), HttpStatus.OK);
+	}
 }

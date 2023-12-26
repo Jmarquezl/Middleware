@@ -5,4 +5,5 @@ import com.chipilinsoft.middleware.entity.IBaseResponse;
 
 public interface AuthenticationServie {
 	public IBaseResponse login(AuthenticationRequest request);
+	public IBaseResponse refreshToken(AuthenticationRequest request);
 }

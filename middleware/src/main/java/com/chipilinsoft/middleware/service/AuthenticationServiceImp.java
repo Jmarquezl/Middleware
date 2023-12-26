@@ -3,12 +3,10 @@ package com.chipilinsoft.middleware.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.chipilinsoft.middleware.entity.AuthenticationRequest;
 import com.chipilinsoft.middleware.entity.AuthenticationResponse;
@@ -36,7 +34,7 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 		try {
 			String token = "";
 			AuthUserDocument appUser = userRepository.getUser(request.getUss());
-			if(appUser == null)return response;
+			if(appUser == null) return response;
 			logger.info("Se obtiene el siguiente usuario: " + appUser.toString());
 			UsernamePasswordAuthenticationToken usa = new UsernamePasswordAuthenticationToken(request.getUss(), request.getPss());
 			logger.info(usa.getCredentials().toString());
@@ -44,6 +42,21 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 			logger.info("sdasdasd");
 			
 			token =  jwtTokenProvider.createToken(request.getUss(), appUser.getAppUserRoles());
+			response.setNombre(appUser.getNombre());
+			response.setToken(token);
+			logger.info(response.toString());
+		} catch (Exception e) {
+			logger.error("Error:: " + e.toString() + e.getMessage());
+		}
+		return response;
+	}
+	@Override
+	public IBaseResponse refreshToken(@RequestBody AuthenticationRequest request) {
+		AuthenticationResponse response = new AuthenticationResponse();
+		logger.info("Inicia el método de refresh toekn para el usuarir :" + request.getUss());
+		try {
+			AuthUserDocument appUser = userRepository.getUser(request.getUss());
+			String token =  jwtTokenProvider.createToken(request.getUss(), appUser.getAppUserRoles());
 			response.setNombre(appUser.getUss());
 			response.setToken(token);
 			logger.info(response.toString());
