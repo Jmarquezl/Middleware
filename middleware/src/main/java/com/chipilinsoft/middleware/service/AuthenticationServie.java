@@ -1,9 +1,9 @@
 package com.chipilinsoft.middleware.service;
 
 import com.chipilinsoft.middleware.entity.AuthenticationRequest;
-import com.chipilinsoft.middleware.entity.IBaseResponse;
+import com.chipilinsoft.middleware.entity.BaseResponse;
 
 public interface AuthenticationServie {
-	public IBaseResponse login(AuthenticationRequest request);
-	public IBaseResponse refreshToken(AuthenticationRequest request);
+	public BaseResponse login(AuthenticationRequest request);
+	public BaseResponse refreshToken(AuthenticationRequest request);
 }

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class JornadaActivaResponse implements IBaseResponse{
+public class JornadaActivaResponse extends BaseResponse{
 	private int id;
 	private String nombre;
 	private LocalDate fechaLimite;
