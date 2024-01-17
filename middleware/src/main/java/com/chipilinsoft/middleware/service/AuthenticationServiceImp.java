@@ -1,5 +1,8 @@
 package com.chipilinsoft.middleware.service;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -9,13 +12,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.chipilinsoft.middleware.component.EquipoProvider;
+import com.chipilinsoft.middleware.component.GrupoProvider;
 import com.chipilinsoft.middleware.component.MessageProvider;
+import com.chipilinsoft.middleware.component.TorneoProvider;
 import com.chipilinsoft.middleware.entity.AuthenticationRequest;
 import com.chipilinsoft.middleware.entity.AuthenticationResponse;
 import com.chipilinsoft.middleware.entity.BaseResponse;
+import com.chipilinsoft.middleware.entity.Equipo;
 import com.chipilinsoft.middleware.repository.AuthUserDocument;
-import com.chipilinsoft.middleware.repository.UserRepo;
+import com.chipilinsoft.middleware.repository.GrupoDocument;
+import com.chipilinsoft.middleware.repository.QuinieleroRepository;
+import com.chipilinsoft.middleware.repository.TorneoDocument;
 import com.chipilinsoft.middleware.security.JwtTokenProvider;
+import com.chipilinsoft.middleware.utils.CodeStatus;
 
 import ch.qos.logback.classic.sift.AppenderFactoryUsingJoran;
 
@@ -25,7 +35,13 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 	private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImp.class);
 			
 	@Autowired
-	private UserRepo userRepository;
+	private QuinieleroRepository quinieleroRepository;
+	@Autowired
+	private EquipoProvider equipoProvider;
+	@Autowired
+	private GrupoProvider grupoProvider;
+	@Autowired
+	private TorneoProvider torneoProvider;
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 	@Autowired
@@ -39,20 +55,22 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 		AuthenticationResponse response = new AuthenticationResponse();
 		try {
 			String token = "";
-			AuthUserDocument appUser = userRepository.getUser(request.getUss());
+			AuthUserDocument appUser = quinieleroRepository.getUser(request.getUss());
 			if(appUser == null) return response;
 			logger.info("Se obtiene el siguiente usuario: " + appUser.toString());
 			UsernamePasswordAuthenticationToken usa = new UsernamePasswordAuthenticationToken(request.getUss(), request.getPss());
-			logger.info(usa.getCredentials().toString());
 			authenticationManager.authenticate(usa);
-			
 			token =  jwtTokenProvider.createToken(request.getUss(), appUser.getAppUserRoles());
 			BeanUtils.copyProperties(appUser, response);
+			response.setUsuario(appUser.getUss());
+			response.setEquipos(equipoProvider.getEquipos());
+			response.setGrupo(grupoProvider.getGrupo(appUser.getGrupo()));
+			response.setTorneo(torneoProvider.getTorneo(appUser.getGrupo()));
 			response.setToken(token);
-			message.assertCode(response, "001");
+			message.assertCode(response, CodeStatus.OK);
 			logger.info(response.toString());
 		} catch (Exception e) {
-			message.assertCode(response, "002");
+			message.assertCode(response, CodeStatus.Fail);
 			logger.error("Error:: " + e.toString() + e.getMessage());
 		}
 		return response;
@@ -62,14 +80,14 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 		AuthenticationResponse response = new AuthenticationResponse();
 		logger.info("Inicia el método de refresh toekn para el usuarir :" + request.getUss());
 		try {
-			AuthUserDocument appUser = userRepository.getUser(request.getUss());
+			AuthUserDocument appUser = quinieleroRepository.getUser(request.getUss());
 			String token =  jwtTokenProvider.createToken(request.getUss(), appUser.getAppUserRoles());
 			response.setNombre(appUser.getUss());
 			response.setToken(token);
-			message.assertCode(response, "001");
+			message.assertCode(response, CodeStatus.OK);
 			logger.info(response.toString());
 		} catch (Exception e) {
-			message.assertCode(response, "002");
+			message.assertCode(response, CodeStatus.Fail);
 			logger.error("Error:: " + e.toString() + e.getMessage());
 		}
 		return response;

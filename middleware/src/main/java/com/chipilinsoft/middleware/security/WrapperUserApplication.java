@@ -15,7 +15,7 @@ import com.chipilinsoft.middleware.repository.*;
 public class WrapperUserApplication implements UserDetailsService 
 {
 	@Autowired
-	private final UserRepo userRepository;
+	private final QuinieleroRepository userRepository;
   
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{    
