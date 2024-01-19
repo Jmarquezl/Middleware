@@ -18,4 +18,5 @@ public class AuthenticationResponse extends BaseResponse{
 	private List<Equipo> equipos;
 	private Grupo grupo;
 	private Torneo torneo;
+	private Jornada jornada;
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.chipilinsoft.middleware.component.EquipoProvider;
 import com.chipilinsoft.middleware.component.GrupoProvider;
+import com.chipilinsoft.middleware.component.JornadaProvider;
 import com.chipilinsoft.middleware.component.MessageProvider;
 import com.chipilinsoft.middleware.component.TorneoProvider;
 import com.chipilinsoft.middleware.entity.AuthenticationRequest;
@@ -43,6 +44,8 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 	@Autowired
 	private TorneoProvider torneoProvider;
 	@Autowired
+	private JornadaProvider jornadaProvider;
+	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -66,6 +69,7 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 			response.setEquipos(equipoProvider.getEquipos());
 			response.setGrupo(grupoProvider.getGrupo(appUser.getGrupo()));
 			response.setTorneo(torneoProvider.getTorneo(appUser.getGrupo()));
+			response.setJornada(jornadaProvider.getJornadaActiva(appUser.getGrupo()));
 			response.setToken(token);
 			message.assertCode(response, CodeStatus.OK);
 			logger.info(response.toString());
