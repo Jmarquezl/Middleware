@@ -71,10 +71,10 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 			response.setTorneo(torneoProvider.getTorneo(appUser.getGrupo()));
 			response.setJornada(jornadaProvider.getJornadaActiva(appUser.getGrupo()));
 			response.setToken(token);
-			message.assertCode(response, CodeStatus.OK);
+			message.assertCode(response, CodeStatus.LOGIN_FAIL);
 			logger.info(response.toString());
 		} catch (Exception e) {
-			message.assertCode(response, CodeStatus.Fail);
+			message.assertCode(response, CodeStatus.LOGIN_FAIL);
 			logger.error("Error:: " + e.toString() + e.getMessage());
 		}
 		return response;
@@ -82,16 +82,16 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 	@Override
 	public BaseResponse refreshToken(@RequestBody AuthenticationRequest request) {
 		AuthenticationResponse response = new AuthenticationResponse();
-		logger.info("Inicia el método de refresh toekn para el usuarir :" + request.getUss());
+		logger.info("Inicia el método de refresh token para el usuarir :" + request.getUss());
 		try {
 			AuthUserDocument appUser = quinieleroRepository.getUser(request.getUss());
 			String token =  jwtTokenProvider.createToken(request.getUss(), appUser.getAppUserRoles());
 			response.setNombre(appUser.getUss());
 			response.setToken(token);
-			message.assertCode(response, CodeStatus.OK);
+			message.assertCode(response, CodeStatus.GENERIC_OK);
 			logger.info(response.toString());
 		} catch (Exception e) {
-			message.assertCode(response, CodeStatus.Fail);
+			message.assertCode(response, CodeStatus.REFRESH_TOKEN_FAIL);
 			logger.error("Error:: " + e.toString() + e.getMessage());
 		}
 		return response;

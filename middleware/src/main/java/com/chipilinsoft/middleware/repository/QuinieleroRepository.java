@@ -14,4 +14,5 @@ public interface QuinieleroRepository
 	boolean saveJornada(String idGrupo, String nombre, LocalDateTime fechaCierre);
 	boolean updateJornada(String idJornada, String nombre, LocalDateTime fechaCierre);
 	boolean cerraJornada(String id);
+	List<CodeMessagesDocument> getCodigosError();
 }

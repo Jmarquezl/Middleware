@@ -113,5 +113,15 @@ public class QuinieleroRepositoryImp implements QuinieleroRepository {
 		return true;
 	}
 
+	@Override
+	public List<CodeMessagesDocument> getCodigosError() {
+		try {
+			return mongoTemplate.findAll(CodeMessagesDocument.class);
+		} catch (Exception ex) {
+			logger.error("Ocurrió un error al consultar los codigos de error: " + ex.getMessage());
+		}
+		return null;
+	}
+
 
 }
