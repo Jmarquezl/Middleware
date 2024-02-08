@@ -1,5 +1,6 @@
 package com.chipilinsoft.middleware.component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ import com.chipilinsoft.middleware.repository.QuinieleroRepository;
 @Lazy
 public class EquipoProviderImp implements EquipoProvider{
 	private static final Logger logger = LoggerFactory.getLogger(EquipoProviderImp.class);
-	private List<EquipoDocument> equipos;
+	private List<EquipoDocument> equipos = new ArrayList<>();
 	
 	@Autowired
 	private QuinieleroRepository quinieleroRepository;
@@ -28,7 +29,7 @@ public class EquipoProviderImp implements EquipoProvider{
 		
 	}
 	
-	@PostConstruct
+	//@PostConstruct
 	private void cargaInicial() {
 		logger.info("Consulta de equipos");
 		try {			
