@@ -31,7 +31,11 @@ public class EquipoProviderImp implements EquipoProvider{
 	@PostConstruct
 	private void cargaInicial() {
 		logger.info("Consulta de equipos");
-		equipos = quinieleroRepository.getEquipos();
+		try {			
+			equipos = quinieleroRepository.getEquipos();
+		} catch (Exception e) {
+			logger.error("Error al consultar los equipos: ", e.getMessage());
+		}
 		logger.info("Se encontraron : " + equipos.size() + " equipos");
 	}
 	@Override
