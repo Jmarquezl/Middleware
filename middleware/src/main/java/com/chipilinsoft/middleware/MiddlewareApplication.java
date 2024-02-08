@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 @SpringBootApplication
 @ComponentScan
 @EnableAutoConfiguration
-@EnableMongoAuditing
 public class MiddlewareApplication {
 
 	public static void main(String[] args) {
