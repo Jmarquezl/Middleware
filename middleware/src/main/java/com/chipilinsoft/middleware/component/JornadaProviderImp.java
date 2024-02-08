@@ -1,11 +1,13 @@
 package com.chipilinsoft.middleware.component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.chipilinsoft.middleware.entity.Jornada;
+import com.chipilinsoft.middleware.entity.Partido;
 import com.chipilinsoft.middleware.repository.JornadaDocument;
 import com.chipilinsoft.middleware.repository.QuinieleroRepository;
 
@@ -33,8 +35,8 @@ public class JornadaProviderImp implements JornadaProvider{
 	}
 
 	@Override
-	public boolean saveJornada(String idGrupo, String nombre, LocalDateTime fechaCierre) {
-		return quinieleroRepository.saveJornada(idGrupo, nombre, fechaCierre);
+	public boolean saveJornada(String idGrupo, String nombre, LocalDateTime fechaCierre, List<Partido> partidos) {
+		return quinieleroRepository.saveJornada(idGrupo, nombre, fechaCierre, partidos);
 	}
 
 	@Override

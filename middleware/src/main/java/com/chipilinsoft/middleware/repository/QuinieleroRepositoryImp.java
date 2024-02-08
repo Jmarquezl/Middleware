@@ -1,6 +1,8 @@
 package com.chipilinsoft.middleware.repository;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
+import com.chipilinsoft.middleware.entity.Partido;
 
 
 @Repository
@@ -72,9 +76,9 @@ public class QuinieleroRepositoryImp implements QuinieleroRepository {
 	}
 
 	@Override
-	public boolean saveJornada(String idGrupo, String nombre, LocalDateTime fechaCierre) {
+	public boolean saveJornada(String idGrupo, String nombre, LocalDateTime fechaCierre, List<Partido> partidos) {
 		try {			
-			JornadaDocument jornada = new JornadaDocument(idGrupo, nombre, fechaCierre);
+			JornadaDocument jornada = new JornadaDocument(idGrupo, nombre, fechaCierre.toInstant(ZoneOffset.UTC), partidos);
 			mongoTemplate.save(jornada);
 		} catch (Exception ex) {
 			logger.error("Ocurrió un error al guardar la jornda: " + ex.getMessage());

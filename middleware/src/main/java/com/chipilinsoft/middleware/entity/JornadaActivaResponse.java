@@ -8,5 +8,5 @@ import lombok.Data;
 public class JornadaActivaResponse extends BaseResponse{
 	private int id;
 	private String nombre;
-	private LocalDate fechaLimite;
+	private LocalDate fechaCierre;
 }

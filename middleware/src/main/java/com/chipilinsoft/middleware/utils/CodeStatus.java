@@ -6,4 +6,5 @@ public class CodeStatus {
 	public static String REFRESH_TOKEN_FAIL = "003";
 	public static String GENERIC_OK = "004";
 	public static String GENERIC_FAIL = "005";
+	public static String JORNADA_NO_ACTIVA = "006";
 }

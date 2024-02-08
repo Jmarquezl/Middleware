@@ -1,8 +1,5 @@
 package com.chipilinsoft.middleware.service;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -20,15 +17,10 @@ import com.chipilinsoft.middleware.component.TorneoProvider;
 import com.chipilinsoft.middleware.entity.AuthenticationRequest;
 import com.chipilinsoft.middleware.entity.AuthenticationResponse;
 import com.chipilinsoft.middleware.entity.BaseResponse;
-import com.chipilinsoft.middleware.entity.Equipo;
 import com.chipilinsoft.middleware.repository.AuthUserDocument;
-import com.chipilinsoft.middleware.repository.GrupoDocument;
 import com.chipilinsoft.middleware.repository.QuinieleroRepository;
-import com.chipilinsoft.middleware.repository.TorneoDocument;
 import com.chipilinsoft.middleware.security.JwtTokenProvider;
 import com.chipilinsoft.middleware.utils.CodeStatus;
-
-import ch.qos.logback.classic.sift.AppenderFactoryUsingJoran;
 
 @Service
 public class AuthenticationServiceImp implements AuthenticationServie{
@@ -71,7 +63,7 @@ public class AuthenticationServiceImp implements AuthenticationServie{
 			response.setTorneo(torneoProvider.getTorneo(appUser.getGrupo()));
 			response.setJornada(jornadaProvider.getJornadaActiva(appUser.getGrupo()));
 			response.setToken(token);
-			message.assertCode(response, CodeStatus.LOGIN_FAIL);
+			message.assertCode(response, CodeStatus.LOGIN_OK);
 			logger.info(response.toString());
 		} catch (Exception e) {
 			message.assertCode(response, CodeStatus.LOGIN_FAIL);
