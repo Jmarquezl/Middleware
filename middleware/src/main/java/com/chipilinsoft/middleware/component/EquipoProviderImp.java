@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.chipilinsoft.middleware.entity.Equipo;
@@ -15,6 +16,7 @@ import com.chipilinsoft.middleware.repository.EquipoDocument;
 import com.chipilinsoft.middleware.repository.QuinieleroRepository;
 
 @Component
+@Lazy
 public class EquipoProviderImp implements EquipoProvider{
 	private static final Logger logger = LoggerFactory.getLogger(EquipoProviderImp.class);
 	private List<EquipoDocument> equipos;
